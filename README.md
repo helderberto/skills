@@ -188,7 +188,6 @@ Focused capabilities the agent applies automatically based on the task (all call
 | Skill | What it does |
 |-------|--------------|
 | [`commit`](skills/commit/SKILL.md) | Group unstaged changes into atomic commits by concern (repository style) |
-| [`resolving-merge-conflicts`](skills/resolving-merge-conflicts/SKILL.md) | Resolve an in-progress merge/rebase conflict by recovering each side's intent |
 | [`create-adr`](skills/create-adr/SKILL.md) | Record a 1–3 sentence Architecture Decision Record |
 | [`create-pull-request`](skills/create-pull-request/SKILL.md) | Open a GitHub PR with structured body · **user-invoked** |
 
