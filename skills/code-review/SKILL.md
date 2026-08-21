@@ -9,9 +9,16 @@ description: Review a GitHub Pull Request for bugs, security, performance, and c
 Mode: $ARGUMENTS
 
 If mode is one of the following, adjust the review:
+
 - BUGS: Focus only on logical or other bugs
 - SECURITY: Focus only on security issues
 - PERFORMANCE: Focus only on performance issues
+
+## Approval standard
+
+Approve when the change definitely improves overall code health, even if it isn't perfect. Perfect code doesn't exist — don't block a change because it isn't how you would have written it. If it improves the codebase and follows its conventions, approve.
+
+If the change is too large to review well (~1000+ lines), asking the author to split it is a valid review outcome. Suggest a strategy: stack (small change, next one based on it), by file group, horizontal (shared code first, then consumers), or vertical (one end-to-end slice per PR).
 
 ## Workflow
 
@@ -30,30 +37,36 @@ Apply all axes (or narrow to the mode above):
 - **Immutability**: No push/pop/splice/direct mutation
 - **Patterns**: Consistent with codebase conventions, no reinvented wheels
 - **Performance**: Unnecessary re-renders, O(n²) where O(n) works, missing memoization
-- **Code smells**: Duplicated code, parameters >3 without options object, magic numbers
+- **Code smells**: match the diff against the baseline in [smells.md](references/smells.md) — always judgement calls, and the repo's documented style overrides the baseline
 
 ## Output format
 
 Group by severity:
+
 - **Critical** - must fix before merge (bugs, security vulnerabilities)
 - **Suggestions** - improvements worth considering
+- **Nit** - minor and optional; the author may ignore (formatting, naming taste)
+- **FYI** - informational only, no action needed
 - **Positives** - good patterns to call out
+
+If you have one structural problem and ten nits, the structural problem _is_ the review — lead with it.
 
 Use `file:line` references for all findings. Include suggested fix for each critical issue.
 
 ## Rules
 
 - Review ALL changed files, not just the latest commit
-- Be specific, skip nitpicks
+- Be specific — label true nitpicks as **Nit** rather than dropping or inflating them
+- **Dependency upgrades** (when `package.json`/lockfile is in the diff): one dependency per change — a bulk bump that breaks hides which package did it; verify against the changelog, not the version number; review the lockfile diff (one direct bump pulls dozens of transitive changes); flag hand-edited lockfiles
 
 ## Common Rationalizations
 
-| Excuse | Rebuttal |
-|--------|----------|
-| "Too small to review" | Small changes cause big bugs — review everything |
-| "It's just a refactor" | Refactors break behavior silently — verify contracts preserved |
-| "Tests pass so it's fine" | Tests don't catch readability, security, or design issues |
-| "I'll clean it up later" | Later never comes — fix now or it ships as-is |
+| Excuse                    | Rebuttal                                                       |
+| ------------------------- | -------------------------------------------------------------- |
+| "Too small to review"     | Small changes cause big bugs — review everything               |
+| "It's just a refactor"    | Refactors break behavior silently — verify contracts preserved |
+| "Tests pass so it's fine" | Tests don't catch readability, security, or design issues      |
+| "I'll clean it up later"  | Later never comes — fix now or it ships as-is                  |
 
 ## Verification
 
@@ -61,6 +74,7 @@ Use `file:line` references for all findings. Include suggested fix for each crit
 - [ ] No critical issue left without a suggested fix
 - [ ] Security concerns flagged with specific fix
 - [ ] Feedback grouped by severity, not file order
+- [ ] Verdict stated against the approval standard — improves code health, or blocked with a reason
 
 ## Error Handling
 
