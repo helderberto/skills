@@ -41,23 +41,45 @@ RIGHT (vertical):
   ...
 ```
 
+## Anti-Pattern: Tautological Tests
+
+The assertion recomputes the expected value the same way the code does — `expect(add(a, b)).toBe(a + b)`, a snapshot derived by hand via the same logic, a constant asserted equal to itself. The test passes by construction and can never disagree with the code.
+
+**Expected values must come from an independent source of truth**: a known-good literal, a worked example, the spec. See [tests.md](references/tests.md) for an example.
+
 ## Workflow
+
+### 0. Discover the stack
+
+The TDD cycle is universal; the commands are not. Before the first test, discover how _this_ repository tests and use its commands for every RED and GREEN:
+
+- Build system: `package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `Makefile`
+- Checked-in wrappers first: `./gradlew`, `./mvnw`, `make test`, repo scripts — never a globally installed tool the repo doesn't use
+- The focused-single-test command vs the full-suite command — run focused during the loop, full suite once before completion
+- Where tests live, how they're named, what patterns neighboring tests follow
+- CI workflows show the commands that actually gate merges
+
+Never assume `npm test`.
 
 ### 1. Planning
 
 When exploring the codebase, read `CONTEXT.md` (if it exists) so that test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
+A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Before writing any test, write down the seams under test and confirm them with the user:
+
+Ask: "What's the public interface, and which seams should we test?"
+
+**No test is written at an unconfirmed seam.**
+
 Before writing any code:
 
-- [ ] Confirm with user what interface changes are needed
+- [ ] Confirm the seams under test with the user
 - [ ] Confirm with user which behaviors to test (prioritize)
 - [ ] Identify opportunities for deep modules (small interface, deep implementation) — run the `/codebase-design` skill for the vocabulary and the testability checks
 - [ ] List the behaviors to test (not implementation steps)
 - [ ] Get user approval on the plan
 
-Ask: "What should the public interface look like? Which behaviors are most important to test?"
-
-**You can't test everything.** Confirm with the user exactly which behaviors matter most. Focus testing effort on critical paths and complex logic, not every possible edge case.
+**You can't test everything.** Agreeing the seams up front is how testing effort lands on critical paths and complex logic, not every possible edge case.
 
 ### 2. Tracer Bullet
 

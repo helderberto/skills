@@ -44,6 +44,23 @@ Red flags:
 - Test name describes HOW not WHAT
 - Verifying through external means instead of interface
 
+**Tautological tests**: The assertion recomputes the expected value the way the code does, so it passes by construction.
+
+```typescript
+// BAD: Recomputes the expected value — can never disagree with the code
+test("total sums line items", () => {
+  const items = [{ price: 10 }, { price: 25 }];
+  const expected = items.reduce((sum, i) => sum + i.price, 0);
+  expect(cartTotal(items)).toBe(expected);
+});
+
+// GOOD: Expected value from an independent source of truth
+test("total sums line items", () => {
+  const items = [{ price: 10 }, { price: 25 }];
+  expect(cartTotal(items)).toBe(35);
+});
+```
+
 ```typescript
 // BAD: Bypasses interface to verify
 test("createUser saves to database", async () => {
