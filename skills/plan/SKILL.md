@@ -2,7 +2,7 @@
 name: plan
 effort: high
 description: Turn a spec into a multi-phase implementation plan using tracer-bullet vertical slices. Use after /spec when a spec exists at `.specs/specs/<slug>.md`, or when the user asks to break work into phases or slices. Don't use without a spec, or for single-file changes with obvious scope.
-argument-hint: '[slug]'
+argument-hint: "[slug]"
 ---
 
 # Plan
@@ -52,7 +52,7 @@ Each phase: thin vertical slice through all layers (schema → service → API �
 
 **Deriving tasks from the spec:**
 
-| Spec Section       | Becomes                                          |
+| Spec Section      | Becomes                                          |
 | ----------------- | ------------------------------------------------ |
 | New Modules       | Implement module with interface                  |
 | Schema Changes    | Migration + validation                           |
@@ -64,11 +64,15 @@ Each phase: thin vertical slice through all layers (schema → service → API �
 
 **Within each slice, order by dependency:** schema → service → API → UI → tests. Happy paths before edge cases.
 
-**Phase naming:** use a goal phrase answering "what can we demo when this is done?" (e.g., "Phase 1 — Revenue visible end-to-end"), not a layer name.
+**Phase naming:** use a goal phrase answering "what can we demo when this is done?" (e.g., "Phase 1 — Revenue visible end-to-end"), not a layer name. An "and" in a phase title is a sign it's two phases.
+
+**Blocking edges:** each phase declares which phases must complete before it can start. Default to a linear chain (each phase blocked by the previous); declare independent edges only when phases genuinely don't gate each other — two independent phases mean two `/build` invocations can work the frontier in parallel.
 
 **Done when:** checkbox list of atomic, verifiable conditions. Each must name a test file/name, a shell command, or a file+content to verify. No prose-only conditions. Test: "Can an agent verify by reading files, running a command, or checking a test?"
 
 **Layer-by-layer exception:** if complex schema changes underpin all modules and no story stands alone, build data foundation first, then slice vertically.
+
+**Wide-refactor exception:** a mechanical change (rename a column, retype a shared symbol) whose blast radius fans across the codebase can't land as a vertical slice — a single edit breaks every call site at once. Sequence it as **expand → migrate → contract**: expand adds the new form beside the old (nothing breaks); call sites migrate in batches sized by blast radius (per package/directory), each batch its own phase blocked by the expand, CI green throughout because the old form still exists; contract deletes the old form in a final phase blocked by every migrate batch.
 
 **Phase count thresholds:**
 
@@ -118,6 +122,8 @@ Durable decisions that apply across all phases:
 ## Phase 1 — <Goal>
 
 **User stories**: <list from spec>
+
+**Blocked by**: None — can start immediately <!-- later phases: "Phase 1" etc. -->
 
 ### What to build
 

@@ -31,7 +31,7 @@ Read `.specs/plans/<slug>.md`. If missing, list plans as numbered options and wa
 
 Scan the plan for `## Phase N` headings. For each phase, count `- [ ]` and `- [x]` checkboxes.
 
-The **next incomplete phase** is the first phase that has at least one unchecked `- [ ]` item.
+The **next incomplete phase** is the first phase that has at least one unchecked `- [ ]` item **and** whose `**Blocked by**` phases (if the plan declares them) are all complete. If the first incomplete phase is blocked, pick the next unblocked one and say why.
 
 If all phases are complete (zero unchecked items across all phases):
 
