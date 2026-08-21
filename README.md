@@ -119,7 +119,7 @@ For quick standalone tasks, you don't need the workflow — just describe what y
 
 ## Skills
 
-Skills come in two modes. **User-invoked** ones never auto-trigger (`disable-model-invocation: true`) — reserved for outward-facing, irreversible actions you must pull the trigger on yourself: `ship` and `create-pull-request`. Everything else is **model-invoked**: it auto-routes by description and stays callable explicitly as `/hb:<name>`. Model-invoked descriptions carry the trigger and anti-trigger clauses routing depends on; the two user-invoked ones keep a single what-it-does sentence, since trigger phrases are dead weight when nothing auto-routes.
+Skills come in two modes. **User-invoked** ones never auto-trigger (`disable-model-invocation: true`) — the outward-facing, irreversible actions you must pull the trigger on yourself (`ship`, `create-pull-request`), plus `teach`, which only ever starts by hand. Everything else is **model-invoked**: it auto-routes by description and stays callable explicitly as `/hb:<name>`. Model-invoked descriptions carry the trigger and anti-trigger clauses routing depends on; user-invoked ones keep a single what-it-does sentence, since trigger phrases are dead weight when nothing auto-routes.
 
 Skills also carry an **effort** hint: mechanical ones (`lint`, `commit`, `prose-fix`) run at low reasoning effort, heavy ones (`architecture-audit`, `harden`, `diagnose`) at high or xhigh, and the rest at the implicit medium default. The override lasts only for the turn the skill fires — so complexity matches the task without you touching `/effort`.
 
@@ -170,7 +170,7 @@ Focused capabilities the agent applies automatically based on the task (all call
 
 | Skill | What it does |
 |-------|--------------|
-| [`code-review`](skills/code-review/SKILL.md) | Five-axis review of a PR (correctness, readability, architecture, security, performance) |
+| [`code-review`](skills/code-review/SKILL.md) | PR review against an approval standard — correctness, security, performance, a Fowler smell baseline; Critical→Nit severities |
 | [`visual-review`](skills/visual-review/SKILL.md) | Render a PR diff as an annotated HTML page — each hunk linked to a design/simplification principle with a suggested rewrite |
 | [`triage-review`](skills/triage-review/SKILL.md) | Triage existing PR review comments (Copilot + human), verify against code, classify Address/Skip/Optional/Discuss |
 | [`a11y-audit`](skills/a11y-audit/SKILL.md) | Accessibility compliance audit (WCAG) |
@@ -204,7 +204,7 @@ Focused capabilities the agent applies automatically based on the task (all call
 | [`domain-modeling`](skills/domain-modeling/SKILL.md) | Build and sharpen the project's ubiquitous language and glossary |
 | [`research`](skills/research/SKILL.md) | Investigate a question against primary sources; capture cited findings as Markdown |
 | [`prototype`](skills/prototype/SKILL.md) | Build a throwaway prototype — terminal app or toggleable UI variations — to flesh out a design |
-| [`grill-me`](skills/grill-me/SKILL.md) | Stress-test a plan or design through relentless interview, one question at a time |
+| [`grill-me`](skills/grill-me/SKILL.md) | Stress-test a plan or design — interview in rounds over the design-tree frontier, each question with a recommended answer |
 
 </details>
 
@@ -214,7 +214,7 @@ Focused capabilities the agent applies automatically based on the task (all call
 | Skill | What it does |
 |-------|--------------|
 | [`handoff`](skills/handoff/SKILL.md) | Compact the current conversation into a handoff doc for a fresh agent |
-| [`teach`](skills/teach/SKILL.md) | Stateful teaching workspace — lessons, references, learning records tied to a mission |
+| [`teach`](skills/teach/SKILL.md) | Stateful teaching workspace — lessons, references, learning records tied to a mission · **user-invoked** |
 | [`explain-code`](skills/explain-code/SKILL.md) | Explain code with visual diagrams and analogies |
 | [`create-skill`](skills/create-skill/SKILL.md) | Author a new skill with proper structure |
 | [`setup-pre-commit`](skills/setup-pre-commit/SKILL.md) | Configure Husky + lint-staged for commit-time gates |
