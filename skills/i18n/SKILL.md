@@ -1,6 +1,6 @@
 ---
 name: i18n
-description: Audit internationalization coverage and find hardcoded strings. Use when user asks to "check i18n", "/i18n", "find hardcoded strings", "check translations", or wants to verify translation coverage. Don't use for backend string extraction, non-frontend code, or projects without an i18n library.
+description: Audit internationalization coverage and find hardcoded strings. Use when user asks to "check i18n", "/i18n", "find hardcoded strings", "check translations", or wants to verify translation coverage. Don't use for backend string extraction, non-frontend code, projects without an i18n library, accessibility (use /a11y-audit), or bundle size (use /perf-audit).
 ---
 
 # i18n Audit

@@ -1,7 +1,7 @@
 ---
 name: lint
 effort: low
-description: Run linting and formatting checks. Use when user asks to "run linter", "/lint", "check linting", "fix lint errors", or requests code linting/formatting. Don't use for running tests or type-checking only.
+description: Run linting and formatting checks. Use when user asks to "run linter", "/lint", "check linting", "fix lint errors", or requests code linting/formatting. Don't use for the full format/type/test pass (use /validate-code) or for installing commit-time hooks (use /setup-pre-commit).
 ---
 
 # Linting

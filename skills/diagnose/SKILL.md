@@ -1,7 +1,7 @@
 ---
 name: diagnose
 effort: high
-description: Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says "diagnose this" / "debug this", reports a bug, says something is broken/throwing/failing, or describes a performance regression.
+description: Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says "diagnose this" / "debug this", reports a bug, says something is broken/throwing/failing, or describes a performance regression. Don't use to build a feature or fix an already-understood bug test-first (use /tdd), or to review a diff (use /code-review).
 ---
 
 # Diagnose
